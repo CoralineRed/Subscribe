@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace ProjectInformatics.Entities
 {
-    public class User
+    /// <summary>
+    /// Сервис в нашем приложении
+    /// </summary>
+    public class Service
     {
-        public int Id { get; set; }
+        public int Id { get; set;}
         public string Name { get; set; }
-        public int CategoryId { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Source { get; set; }
     }
 }
