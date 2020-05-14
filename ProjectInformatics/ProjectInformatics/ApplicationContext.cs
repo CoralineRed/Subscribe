@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectInformatics.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProjectInformatics
 {
     public class ApplicationContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<UserSubscription> UserSubscriptions { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
