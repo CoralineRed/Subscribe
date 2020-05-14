@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProjectInformatics.Models;
+using ProjectInformatics.Services;
 
 namespace ProjectInformatics.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private ApplicationContext _context;
+        UserService userService;
+        public HomeController(ApplicationContext context, UserService service)
         {
-            _logger = logger;
+            _context = context;
+            userService = service;
         }
 
         [Authorize]
