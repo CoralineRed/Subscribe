@@ -49,12 +49,12 @@ namespace ProjectInformatics.Services
             }
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetUser(string email, string password)
         {
-            User user = null;
-            if (!cache.TryGetValue(id, out user))
+            User userr = null;
+            User user = await db.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+            if (!cache.TryGetValue(user.Id, out userr))
             {
-                user = await db.Users.FirstOrDefaultAsync(p => p.Id == id);
                 if (user != null)
                 {
                     cache.Set(user.Id, user,

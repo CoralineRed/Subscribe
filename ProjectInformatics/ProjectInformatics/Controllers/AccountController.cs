@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using ProjectInformatics;
 using ProjectInformatics.Entities;
 using ProjectInformatics.Models;
+using ProjectInformatics.Services;
+using System.Linq;
 
 namespace AuthApp.Controllers
 {
