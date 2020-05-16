@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectInformatics.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,9 @@ namespace ProjectInformatics.Controllers
         }
         public IActionResult Support()
         {
-            return View(db);
+            var messages = db.Messages.ToList();
+            messages.Reverse();
+            return View(messages);
         }
     }
 }
