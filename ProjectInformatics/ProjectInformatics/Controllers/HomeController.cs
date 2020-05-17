@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,6 +23,15 @@ namespace ProjectInformatics.Controllers
             userService = service;
         }
 
+        [HttpGet("signin-google", Name = "signin-google")]
+        [AllowAnonymous]
+        public Task<IActionResult> externallogincallback(string returnUrl = null, string remoteError = null)
+        {
+            //Here we can retrieve the claims
+            var result = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return null;
+        }
         [Authorize]
         public IActionResult Index()
         {

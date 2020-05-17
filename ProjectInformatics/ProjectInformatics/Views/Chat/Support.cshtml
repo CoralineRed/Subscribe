@@ -13,7 +13,7 @@
         <input type="button" id="sendBtn" value="Отправить" />
     </div>
     <div id="chatroom"></div>
-    @foreach(var e in Model)
+    @foreach (var e in Model)
     {
         <p>@e.UserName : @e.MessageText</p>
     }
@@ -51,5 +51,7 @@
         hubConnection.start();
     </script>
 </body>
+@section Scripts
+{}
 
 
