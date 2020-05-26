@@ -33,42 +33,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="wthree-different-dot">
 
             @*<div class="header">
-                <div class="container">
-                    <div class="header-mdl agileits-logo">
-                         header-two 
-                        <h1><a href="index.html">Fit Club</a></h1>
+                    <div class="container">
+                        <div class="header-mdl agileits-logo">
+                             header-two
+                            <h1><a href="index.html">Fit Club</a></h1>
+                        </div>
+                        <div class="header-nav">
+                            <nav class="navbar navbar-default">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                                 top-nav
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="index.html" class="scroll" data-hover="Home">Home</a></li>
+                                        <li><a href="#about" class="scroll" data-hover="About">About</a></li>
+                                        <li>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#coaches" class="scroll" data-hover="Testimonials">Developers</a></li>
+                                                <li><a href="#pricing" class="scroll" data-hover="Pricing tables">Pricing tables</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#coaches" class="scroll" data-hover="Coaches">Coaches</a></li>
+                                        <li><a href="#contact" class="scroll" data-hover="Contact">Contact</a></li>
+                                    </ul>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            </nav>
+                        </div>
                     </div>
-                    <div class="header-nav">
-                        <nav class="navbar navbar-default">
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-                             top-nav 
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="index.html" class="scroll" data-hover="Home">Home</a></li>
-                                    <li><a href="#about" class="scroll" data-hover="About">About</a></li>
-                                    <li>
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#coaches" class="scroll" data-hover="Testimonials">Developers</a></li>
-                                            <li><a href="#pricing" class="scroll" data-hover="Pricing tables">Pricing tables</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#coaches" class="scroll" data-hover="Coaches">Coaches</a></li>
-                                    <li><a href="#contact" class="scroll" data-hover="Contact">Contact</a></li>
-                                </ul>
-                                <div class="clearfix"> </div>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </div>*@
+                </div>*@
 
 
 
@@ -384,135 +384,137 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
     <!--pop-up-grid-->
     <!-- copyright -->
+    
     <div class="copyright">
         <div class="container">
             <p>© 2020 Neflix. All Rights Reserved | Design by ITIS </p>
         </div>
     </div>
     @section Scripts {
-    <script type="text/javascript" src="~/js/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="~/js/bootstrap.js"></script>
-    <script src="~/js/easy-responsive-tabs.js"></script>
-    <script>
-		$(document).ready(function () {
-			$('#horizontalTab').easyResponsiveTabs({
-			type: 'default', //Types: default, vertical, accordion
-			width: 'auto', //auto or any width like 600px
-			fit: true,   // 100% fit in a container
-			closed: 'accordion', // Start closed if in accordion view
-			activate: function(event) { // Callback function if tab is switched
-			var $tab = $(this);
-			var $info = $('#tabInfo');
-			var $name = $('span', $info);
-			$name.text($tab.text());
-			$info.show();
-			}
-			});
-			$('#verticalTab').easyResponsiveTabs({
-			type: 'vertical',
-			width: 'auto',
-			fit: true
-			});
-		});
-    </script>
-    <!-- //Responsive tabs for coachhes section -->
-    <!-- scrolling script -->
-    <script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event){
-				event.preventDefault();
-				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-			});
-		});
-    </script>
-    <!-- //scrolling script -->
-    <!--banner Slider starts Here-->
-    <script src="~/js/responsiveslides.min.js"></script>
-    <script>
-		// You can also use "$(window).load(function() {"
-		$(function () {
-		  // Slideshow 4
-		  $("#slider4").responsiveSlides({
-			auto: true,
-			pager:true,
-			nav:true,
-			speed: 500,
-			namespace: "callbacks",
-			before: function () {
-			  $('.events').append("<li>before event fired.</li>");
-			},
-			after: function () {
-			  $('.events').append("<li>after event fired.</li>");
-			}
-		  });
+        <script type="text/javascript" src="~/js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="~/js/bootstrap.js"></script>
 
-		});
-    </script>
-    <!--banner Slider ends Here-->
-    <!-- Pop-up for pricing tables -->
-    <script src="~/js/jquery.magnific-popup.js" type="text/javascript"></script>
-    <script>
-			$(document).ready(function() {
-				$('.popup-with-zoom-anim').magnificPopup({
-					type: 'inline',
-					fixedContentPos: false,
-					fixedBgPos: true,
-					overflowY: 'auto',
-					closeBtnInside: true,
-					preloader: false,
-					midClick: true,
-					removalDelay: 300,
-					mainClass: 'my-mfp-zoom-in'
-			});
+        <script src="~/js/easy-responsive-tabs.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#horizontalTab').easyResponsiveTabs({
+                    type: 'default', //Types: default, vertical, accordion
+                    width: 'auto', //auto or any width like 600px
+                    fit: true,   // 100% fit in a container
+                    closed: 'accordion', // Start closed if in accordion view
+                    activate: function (event) { // Callback function if tab is switched
+                        var $tab = $(this);
+                        var $info = $('#tabInfo');
+                        var $name = $('span', $info);
+                        $name.text($tab.text());
+                        $info.show();
+                    }
+                });
+                $('#verticalTab').easyResponsiveTabs({
+                    type: 'vertical',
+                    width: 'auto',
+                    fit: true
+                });
+            });
+        </script>
+        <!-- //Responsive tabs for coachhes section -->
+        <!-- scrolling script -->
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+                $(".scroll").click(function (event) {
+                    event.preventDefault();
+                    $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+                });
+            });
+        </script>
+        <!-- //scrolling script -->
+        <!--banner Slider starts Here-->
+        <script src="~/js/responsiveslides.min.js"></script>
+        <script>
+            // You can also use "$(window).load(function() {"
+            $(function () {
+                // Slideshow 4
+                $("#slider4").responsiveSlides({
+                    auto: true,
+                    pager: true,
+                    nav: true,
+                    speed: 500,
+                    namespace: "callbacks",
+                    before: function () {
+                        $('.events').append("<li>before event fired.</li>");
+                    },
+                    after: function () {
+                        $('.events').append("<li>after event fired.</li>");
+                    }
+                });
 
-		});
-    </script>
-    <!-- //Pop-up for pricing tables -->
-    <!-- Stats-Number-Scroller-Animation-JavaScript -->
-    <script src="~/js/waypoints.min.js"></script>
-    <script src="~/js/counterup.min.js"></script>
-    <script>
-		jQuery(document).ready(function( $ ) {
-			$('.counter').counterUp({
-				delay: 10,
-				time: 1000
-			});
-		});
-    </script>
-    <!-- //Stats-Number-Scroller-Animation-JavaScript -->
-    <!-- flexSlider --><!-- for testimonials -->
-    <script defer src="~/js/jquery.flexslider.js"></script>
-    <script type="text/javascript">
-		$(window).load(function(){
-		  $('.flexslider').flexslider({
-			animation: "slide",
-			start: function(slider){
-			  $('body').removeClass('loading');
-			}
-		  });
-		});
-    </script>
-    <!-- //flexSlider --><!-- for testimonials -->
-    <!-- Smooth scrolling -->
-    <script src="~/js/SmoothScroll.min.js"></script>
-    <script type="text/javascript" src="~/js/move-top.js"></script>
-    <script type="text/javascript" src="~/js/easing.js"></script>
-    <!-- here stars scrolling icon -->
-    <script type="text/javascript">
-		$(document).ready(function() {
-			/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear'
-				};
-			*/
+            });
+        </script>
+        <!--banner Slider ends Here-->
+        <!-- Pop-up for pricing tables -->
+        <script src="~/js/jquery.magnific-popup.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function () {
+                $('.popup-with-zoom-anim').magnificPopup({
+                    type: 'inline',
+                    fixedContentPos: false,
+                    fixedBgPos: true,
+                    overflowY: 'auto',
+                    closeBtnInside: true,
+                    preloader: false,
+                    midClick: true,
+                    removalDelay: 300,
+                    mainClass: 'my-mfp-zoom-in'
+                });
 
-			$().UItoTop({ easingType: 'easeOutQuart' });
+            });
+        </script>
+        <!-- //Pop-up for pricing tables -->
+        <!-- Stats-Number-Scroller-Animation-JavaScript -->
+        <script src="~/js/waypoints.min.js"></script>
+        <script src="~/js/counterup.min.js"></script>
+        <script>
+            jQuery(document).ready(function ($) {
+                $('.counter').counterUp({
+                    delay: 10,
+                    time: 1000
+                });
+            });
+        </script>
+        <!-- //Stats-Number-Scroller-Animation-JavaScript -->
+        <!-- flexSlider --><!-- for testimonials -->
+        <script defer src="~/js/jquery.flexslider.js"></script>
+        <script type="text/javascript">
+            $(window).load(function () {
+                $('.flexslider').flexslider({
+                    animation: "slide",
+                    start: function (slider) {
+                        $('body').removeClass('loading');
+                    }
+                });
+            });
+        </script>
+        <!-- //flexSlider --><!-- for testimonials -->
+        <!-- Smooth scrolling -->
+        <script src="~/js/SmoothScroll.min.js"></script>
+        <script type="text/javascript" src="~/js/move-top.js"></script>
+        <script type="text/javascript" src="~/js/easing.js"></script>
+        <!-- here stars scrolling icon -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                /*
+                    var defaults = {
+                    containerID: 'toTop', // fading element id
+                    containerHoverID: 'toTopHover', // fading element hover id
+                    scrollSpeed: 1200,
+                    easingType: 'linear'
+                    };
+                */
 
-			});
-    </script>
+                $().UItoTop({ easingType: 'easeOutQuart' });
+
+            });
+        </script>
     }
     <!-- //here ends scrolling icon -->
     <!-- //Smooth scrolling -->
