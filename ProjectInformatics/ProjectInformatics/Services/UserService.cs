@@ -12,6 +12,7 @@ namespace ProjectInformatics.Services
     {
         private ApplicationContext db;
         private IMemoryCache cache;
+
         public UserService(ApplicationContext context, IMemoryCache memoryCache)
         {
             db = context;
