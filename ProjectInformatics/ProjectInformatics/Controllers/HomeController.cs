@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProjectInformatics.Entities;
 using ProjectInformatics.Models;
 using ProjectInformatics.Services;
 
@@ -15,16 +16,16 @@ namespace ProjectInformatics.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationContext _context;
+        private ApplicationContext db;
         UserService userService;
         public HomeController(ApplicationContext context, UserService service)
         {
-            _context = context;
+            db = context;
             userService = service;
+
         }
 
    
-        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -39,6 +40,31 @@ namespace ProjectInformatics.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        public IActionResult MyServices()
+        {
+            return View(db.GetSubscriptions(User.Identity.Name));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult AddService()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddService(Subscription model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.AddServiceToUser(model, User.Identity.Name);
+                return RedirectToAction("MyServices", "Home");
+            }
+            return View(model);
         }
     }
 }

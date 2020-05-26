@@ -11,8 +11,10 @@ namespace ProjectInformatics.Entities
     /// </summary>
     public class Subscription
     {
-        public int ServiceId { get; set; }
+        //public int ServiceId { get; set; }
         public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime LastPayment { get; set; }
         /// <summary>
         /// Период подписки в днях
         /// </summary>

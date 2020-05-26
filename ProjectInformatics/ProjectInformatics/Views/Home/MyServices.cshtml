@@ -2,6 +2,23 @@
 @{
     ViewData["Title"] = "MyServices";
 }
+@model List<ProjectInformatics.Entities.Subscription>
 
+<a asp-action="AddService" asp-controller="Home" class="w3-button">Add service</a>
+<br />
 
+@for (int i = 0; i < Model.Count; i++)
+{
+    <p>@Model[i].Name</p>
+    <p>@{
+        (Model[i].LastPayment + TimeSpan.FromDays(Model[i].Period)).ToString("dd.mm.yyyy");
+        }</p>
+    <p>@Model[i].Price$</p>
+    if (i != Model.Count - 1)
+    {
+        <hr />
+    }
+}
 
+@section Scripts
+{}
