@@ -10,15 +10,20 @@ using ProjectInformatics.Entities;
 using ProjectInformatics.Models;
 using ProjectInformatics.Services;
 using System.Linq;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AuthApp.Controllers
 {
     public class AccountController : Controller
     {
         private ApplicationContext db;
-        public AccountController(ApplicationContext context)
+        private IMemoryCache _cache;
+        UserService userService { get; set; }
+        public AccountController(ApplicationContext context, IMemoryCache cache)
         {
+            _cache = cache;
             db = context;
+            userService = new UserService(db, _cache);
         }
         [HttpGet]
         public IActionResult Login()
@@ -31,7 +36,7 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                User user = await userService.GetUser(model.Email, model.Password);
                 if (user != null)
                 {
                     await Authenticate(model.Email);
@@ -56,8 +61,9 @@ namespace AuthApp.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    db.Users.Add(new User { Email = model.Email, Password = model.Password });
-                    await db.SaveChangesAsync();
+                    await userService.AddUser(new User { Email = model.Email, Password = model.Password });
+                    //db.Users.Add(new User { Email = model.Email, Password = model.Password });
+                    //await db.SaveChangesAsync();
 
                     await Authenticate(model.Email); 
 

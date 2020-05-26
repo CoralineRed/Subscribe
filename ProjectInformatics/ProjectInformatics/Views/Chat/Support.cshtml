@@ -1,11 +1,12 @@
 ﻿@using ProjectInformatics.Entities;
 @model List<Message>
-<head>
-    <meta charset="utf-8" />
-    <title>SignalR Chat - Metanit.com</title>
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <title>SignalR Chat - Metanit.com</title>
+    </head>
 <body>
     <h1>Hi, @User.Identity.Name!</h1>
+
     <div id="header"></div><br />
 
     <div id="inputForm">
@@ -52,6 +53,16 @@
     </script>
 </body>
 @section Scripts
-{}
+{
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+            });
+            auth2.disconnect();
+        }
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+}
 
 
