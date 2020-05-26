@@ -24,7 +24,6 @@ namespace ProjectInformatics.Controllers
         }
 
    
-        [Authorize]
         public IActionResult Index()
         {
             return View();
