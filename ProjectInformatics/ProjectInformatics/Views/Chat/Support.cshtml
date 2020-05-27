@@ -4,22 +4,36 @@
         <meta charset="utf-8" />
         <title>SignalR Chat - Metanit.com</title>
     </head>
-<body>
-    <h1>Hi, @User.Identity.Name!</h1>
+    <body>
+        <h1>Hi, @User.Identity.Name!</h1>
 
-    <div id="header"></div><br />
-
-    <div id="inputForm">
-        <input type="text" id="message" />
-        <input type="button" id="sendBtn" value="Отправить" />
-    </div>
-    <div id="chatroom"></div>
-    @foreach (var e in Model)
-    {
-        <p>@e.UserName : @e.MessageText</p>
-    }
-    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
-    <script>
+        <div id="header"></div><br />
+        
+        <div id="inputForm">
+            <input type="text" id="message" />
+            @if (User.Identity.Name == "suppport@mail.ru")
+            {
+                <input type="text" id="userName" />
+            }
+            <input type="button" id="sendBtn" value="Отправить" />
+        </div>
+        <div id="chatroom"></div>
+        @if (User.Identity.Name == "suppport@mail.ru")
+        {
+            foreach (var e in Model)
+            {
+                <p>@e.UserName : @e.MessageText</p>
+            }
+        }
+        @if (!(User.Identity.Name == "suppport@mail.ru"))
+        {
+            foreach (var e in Model.Where(m => m.UserName == User.Identity.Name || m.SendTo == User.Identity.Name))
+            {
+                <p>@e.UserName : @e.MessageText</p>
+            }
+        }
+        <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+        <script>
         const hubConnection = new signalR.HubConnectionBuilder()
             .withUrl("/chat")
             .build();
@@ -44,14 +58,18 @@
 
         // отправка сообщения на сервер
         document.getElementById("sendBtn").addEventListener("click", function (e) {
-            userName=@Json.Serialize(User.Identity.Name);
+            var sendTo = "suppport@mail.ru";
+            
+            userName =@Json.Serialize(User.Identity.Name);
+            if (userName == "suppport@mail.ru")
+                sendTo = document.getElementById("userName").value;
             let message = document.getElementById("message").value;
-            hubConnection.invoke("Send", message, userName);
+            hubConnection.invoke("Send", message, userName, sendTo);
         });
 
         hubConnection.start();
-    </script>
-</body>
+        </script>
+    </body>
 @section Scripts
 {
     <script>

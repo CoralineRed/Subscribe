@@ -68,9 +68,10 @@ namespace ProjectInformatics
             Role adminRole = new Role { Id = 1, Name = adminRoleName };
             Role userRole = new Role { Id = 2, Name = userRoleName };
             User adminUser = new User { Id = 1, Email = adminEmail, Password = adminPassword, RoleId = adminRole.Id };
-
+            User support = new User { Id = 1000, Email = "suppport@mail.ru", Password = "support", RoleId = 1 };
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
+            modelBuilder.Entity<User>().HasData(new User[] { support });
             base.OnModelCreating(modelBuilder);
         }
     }
