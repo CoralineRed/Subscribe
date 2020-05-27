@@ -7,12 +7,18 @@
 <a asp-action="AddService" asp-controller="Home" class="w3-button">Add service</a>
 <br />
 
+@if (ViewBag.CategoryId == 1)
+{
+    <p>Cgfcb,j pf gjlgbcre</p>
+}
+
 @for (int i = 0; i < Model.Count; i++)
 {
     <p>@Model[i].Name</p>
-    <p>@{
-        (Model[i].LastPayment + TimeSpan.FromDays(Model[i].Period)).ToString("dd.mm.yyyy");
-        }</p>
+    
+    var a = (Model[i].LastPayment + TimeSpan.FromDays(Model[i].Period)).ToString("dd MMMM yyyy");
+    
+    <p>@a</p>
     <p>@Model[i].Price$</p>
     if (i != Model.Count - 1)
     {

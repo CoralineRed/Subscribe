@@ -45,6 +45,7 @@ namespace ProjectInformatics.Controllers
         [Authorize]
         public IActionResult MyServices()
         {
+            ViewBag.CategoryId = db.GetUserCategory(User.Identity.Name);
             return View(db.GetSubscriptions(User.Identity.Name));
         }
 
@@ -65,6 +66,13 @@ namespace ProjectInformatics.Controllers
                 return RedirectToAction("MyServices", "Home");
             }
             return View(model);
+        }
+
+        [Authorize]
+        public IActionResult ThankYou(int categoryId)
+        {
+            db.UpdateUserCategory(User.Identity.Name, categoryId);
+            return View();
         }
     }
 }
