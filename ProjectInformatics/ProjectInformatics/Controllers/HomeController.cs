@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using ProjectInformatics.Entities;
 using ProjectInformatics.Models;
 using ProjectInformatics.Services;
+using Microsoft.AspNetCore.Builder;
 
 namespace ProjectInformatics.Controllers
 {
@@ -40,6 +41,15 @@ namespace ProjectInformatics.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult AllUsers()
+        {
+            var jsondata = db.Users.ToList<User>();
+            return new JsonResult(jsondata);
+        }
+        public IActionResult AdminPage()
+        {
+            return View();
         }
 
         [Authorize]
