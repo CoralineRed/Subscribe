@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="google-signin-client_id" content="326793202628-leld5v1i8qov9lvcrfgj7lj445v1bge2.apps.googleusercontent.com">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProjectInformatics</title>
@@ -24,10 +25,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyServices">Services</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout @string.Empty</a>
+                            </li>
+                        }
+                        @if (!User.Identity.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Support">Support</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://localhost:44368/Account/Login/signin-google" onclick="signOut();">Sign out</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -44,8 +59,10 @@
             &copy; 2020 - ProjectInformatics - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
