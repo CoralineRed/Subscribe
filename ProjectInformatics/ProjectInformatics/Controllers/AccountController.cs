@@ -61,7 +61,7 @@ namespace AuthApp.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    await userService.AddUser(new User { Email = model.Email, Password = model.Password });
+                    await userService.AddUser(new User { Email = model.Email, Password = model.Password, CategoryId = 1 });
                     //db.Users.Add(new User { Email = model.Email, Password = model.Password });
                     //await db.SaveChangesAsync();
 

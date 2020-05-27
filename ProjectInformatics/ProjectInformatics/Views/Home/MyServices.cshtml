@@ -7,9 +7,19 @@
 <a asp-action="AddService" asp-controller="Home" class="w3-button">Add service</a>
 <br />
 
-@if (ViewBag.CategoryId == 1)
+@if (ViewBag.CategoryId == 2)
 {
-    <p>Cgfcb,j pf gjlgbcre</p>
+<form asp-controller="Home" asp-action="MyServices">
+    <input checked="checked" id="order" name="order" type="radio" value="ascendingDate" class="radio"/>
+    <span>Ascending by date (default)</span><br />
+    <input id="order" name="order" type="radio" value="descendingDate" class="custom-radio"/>
+    <span>Descending by date</span> <br />
+    <input id="order" name="order" type="radio" value="ascendingName" />
+    <span>Ascending by name</span> <br />
+    <input id="order" name="order" type="radio" value="descendingName" />
+    <span>Descending by name</span> <br />
+    <input type="submit" value="Filter" class="btn btn-outline-dark" />
+</form>
 }
 
 @for (int i = 0; i < Model.Count; i++)
