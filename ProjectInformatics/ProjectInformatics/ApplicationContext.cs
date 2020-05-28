@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectInformatics.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,10 +20,6 @@ namespace ProjectInformatics
             : base(options)
         {
             Database.EnsureCreated();
-            if (Categories.Count() == 0)
-                Categories.AddRange(
-                    new Category() { Type = "NoCategory" },
-                    new Category() { Price = 15, Type = "Standard" });
         }
 
         public void AddServiceToUser(Subscription subscription, string userEmail)
@@ -34,15 +31,21 @@ namespace ProjectInformatics
             SaveChanges();
         }
 
-        public List<Subscription> GetSubscriptions(string userEmail)
+        public List<Subscription> GetSubscriptions(string userEmail, string order = null)
         {
             var userId = Users.FirstOrDefault(u => u.Email == userEmail).Id;
             var subsIds = UserSubscriptions
                 .Where(x => x.UserId == userId)
                 .Select(x => x.SubscriptionId);
-            return Subscriptions
-                .Where(s => subsIds.Any(id => id == s.Id))
-                .ToList();
+            var subs = Subscriptions
+                .Where(s => subsIds.Any(id => id == s.Id));
+            if (order == "descendingDate")
+                return subs.ToList().OrderByDescending(x => x.LastPayment + TimeSpan.FromDays(x.Period)).ToList();
+            if (order == "ascendingName")
+                return subs.ToList().OrderBy(x => x.Name).ToList();
+            if (order == "descendingName")
+                return subs.ToList().OrderByDescending(x => x.Name).ToList();
+            return subs.ToList().OrderBy(x => x.LastPayment + TimeSpan.FromDays(x.Period)).ToList();
         }
 
         public void UpdateUserCategory(string userEmail, int categoryId)
@@ -69,8 +72,12 @@ namespace ProjectInformatics
             Role userRole = new Role { Id = 2, Name = userRoleName };
             User adminUser = new User { Id = 1, Email = adminEmail, Password = adminPassword, RoleId = adminRole.Id };
             User support = new User { Id = 1000, Email = "suppport@mail.ru", Password = "support", RoleId = 1 };
+            var noCategory = new Category() { Id = 1, Type = "NoCategory" };
+            var standardCategory = new Category() { Id = 2, Price = 15, Type = "Standard" };
+
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
+            modelBuilder.Entity<Category>().HasData(new Category[] { noCategory, standardCategory });
             modelBuilder.Entity<User>().HasData(new User[] { support });
             base.OnModelCreating(modelBuilder);
         }

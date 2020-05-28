@@ -53,10 +53,10 @@ namespace ProjectInformatics.Controllers
         }
 
         [Authorize]
-        public IActionResult MyServices()
+        public IActionResult MyServices(string order)
         {
             ViewBag.CategoryId = db.GetUserCategory(User.Identity.Name);
-            return View(db.GetSubscriptions(User.Identity.Name));
+            return View(db.GetSubscriptions(User.Identity.Name, order));
         }
 
         [HttpGet]
