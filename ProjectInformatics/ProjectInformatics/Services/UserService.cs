@@ -38,6 +38,9 @@ namespace ProjectInformatics.Services
 
         public async Task AddUser(User user)
         {
+            Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+            if (userRole != null)
+                user.Role = userRole;
             db.Users.Add(user);
             int n = await db.SaveChangesAsync();
             if (n > 0)

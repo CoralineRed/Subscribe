@@ -47,6 +47,12 @@ namespace ProjectInformatics.Controllers
             var jsondata = db.Users.ToList<User>();
             return new JsonResult(jsondata);
         }
+        public IActionResult AllMessages()
+        {
+            var jsondata = db.Messages.ToList<Message>();
+            return new JsonResult(jsondata);
+        }
+        [Authorize(Roles = "admin")]
         public IActionResult AdminPage()
         {
             return View();
