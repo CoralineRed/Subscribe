@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProjectInformatics.Database;
 using ProjectInformatics.Services;
 
 namespace ProjectInformatics
@@ -29,7 +30,7 @@ namespace ProjectInformatics
         {
             services.AddSignalR();
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<IDbService, ApplicationContext>(options => options.UseSqlServer(connection));
 
             services.AddAuthentication(options =>
             {

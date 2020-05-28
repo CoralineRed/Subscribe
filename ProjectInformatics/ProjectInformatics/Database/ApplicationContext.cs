@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using ProjectInformatics.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace ProjectInformatics
+namespace ProjectInformatics.Database
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext, IDbService
     {
         public DbSet<Message> Messages { get; set; }
         public DbSet<User> Users { get; set; }
@@ -15,25 +18,39 @@ namespace ProjectInformatics
         public DbSet<Service> Services { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<UserSubscription> UserSubscriptions { get; set; }
+        IGridFSBucket gridFS;   // файловое хранилище
+        IMongoCollection<Message> Messagess; // коллекция в базе данных
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
             Database.EnsureCreated();
+            // строка подключения
+            string connectionString = "mongodb://localhost:27017/mobilestore";
+            var connection = new MongoUrlBuilder(connectionString);
+            // получаем клиента для взаимодействия с базой данных
+            MongoClient client = new MongoClient(connectionString);
+            // получаем доступ к самой базе данных
+            IMongoDatabase database = client.GetDatabase(connection.DatabaseName);
+            // получаем доступ к файловому хранилищу
+            gridFS = new GridFSBucket(database);
+            // обращаемся к коллекции Products
+            Messagess = database.GetCollection<Message>("Messages");
         }
 
         public void AddServiceToUser(Subscription subscription, string userEmail)
         {
             Subscriptions.Add(subscription);
             SaveChanges();
-            var userId = Users.FirstOrDefault(u => u.Email == userEmail).Id;
-            UserSubscriptions.Add(new UserSubscription() { UserId = userId, SubscriptionId = subscription.Id });
+            UserSubscriptions.Add(new UserSubscription() {
+                UserId = GetUser(userEmail).Id,
+                SubscriptionId = subscription.Id });
             SaveChanges();
         }
 
         public List<Subscription> GetSubscriptions(string userEmail, string order = null)
         {
-            var userId = Users.FirstOrDefault(u => u.Email == userEmail).Id;
+            var userId = GetUser(userEmail).Id;
             var subsIds = UserSubscriptions
                 .Where(x => x.UserId == userId)
                 .Select(x => x.SubscriptionId);
@@ -50,15 +67,15 @@ namespace ProjectInformatics
 
         public void UpdateUserCategory(string userEmail, int categoryId)
         {
-            var user = Users.FirstOrDefault(u => u.Email == userEmail);
-            user.CategoryId = categoryId;
+            GetUser(userEmail).CategoryId = categoryId;
             SaveChanges();
         }
 
         public int GetUserCategory(string userEmail)
         {
-            return Users.FirstOrDefault(x => x.Email == userEmail).CategoryId;
+            return GetUser(userEmail).CategoryId;
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             string adminRoleName = "admin";
@@ -80,6 +97,51 @@ namespace ProjectInformatics
             modelBuilder.Entity<Category>().HasData(new Category[] { noCategory, standardCategory });
             modelBuilder.Entity<User>().HasData(new User[] { support });
             base.OnModelCreating(modelBuilder);
+        }
+
+        public List<User> GetUsers()
+        {
+            return Users.ToList();
+        }
+
+        public List<Message> GetMessages()
+        {
+            return Messages.ToList();
+        }
+
+        public void AddMessage(Message message)
+        {
+            Messages.Add(message);
+            SaveChanges();
+        }
+
+        public User GetUser(string email, string password = null)
+        {
+            return Users.FirstOrDefault(x => x.Email == email
+                || password != null && x.Email == email && x.Password == password);
+        }
+
+        public Task<List<User>> GetUsersAsync()
+        {
+            return Users.ToListAsync();
+        }
+
+        public void AddUsers(params User[] users)
+        {
+            Users.AddRange(users);
+            SaveChanges();
+        }
+
+        public Task<int> AddUserAsync(User user)
+        {
+            Users.Add(user);
+            return SaveChangesAsync();
+        }
+
+        public Task<User> GetUserAsync(string email, string password = null)
+        {
+            return Users.FirstOrDefaultAsync(x => x.Email == email
+                || password != null && x.Email == email && x.Password == password);
         }
     }
 }

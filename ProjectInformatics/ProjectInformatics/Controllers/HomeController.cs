@@ -12,14 +12,15 @@ using ProjectInformatics.Entities;
 using ProjectInformatics.Models;
 using ProjectInformatics.Services;
 using Microsoft.AspNetCore.Builder;
+using ProjectInformatics.Database;
 
 namespace ProjectInformatics.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationContext db;
+        private IDbService db;
         UserService userService;
-        public HomeController(ApplicationContext context, UserService service)
+        public HomeController(IDbService context, UserService service)
         {
             db = context;
             userService = service;
@@ -44,7 +45,7 @@ namespace ProjectInformatics.Controllers
         }
         public IActionResult AllUsers()
         {
-            var jsondata = db.Users.ToList<User>();
+            var jsondata = db.GetUsers();
             return new JsonResult(jsondata);
         }
         public IActionResult AdminPage()

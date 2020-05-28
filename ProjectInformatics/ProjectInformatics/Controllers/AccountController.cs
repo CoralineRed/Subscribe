@@ -11,15 +11,16 @@ using ProjectInformatics.Models;
 using ProjectInformatics.Services;
 using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
+using ProjectInformatics.Database;
 
 namespace AuthApp.Controllers
 {
     public class AccountController : Controller
     {
-        private ApplicationContext db;
+        private IDbService db;
         private IMemoryCache _cache;
         UserService userService { get; set; }
-        public AccountController(ApplicationContext context, IMemoryCache cache)
+        public AccountController(IDbService context, IMemoryCache cache)
         {
             _cache = cache;
             db = context;
@@ -58,7 +59,7 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User user = db.GetUser(model.Email);
                 if (user == null)
                 {
                     await userService.AddUser(new User { Email = model.Email, Password = model.Password, CategoryId = 1 });
