@@ -5,7 +5,9 @@ using ProjectInformatics.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ProjectInformatics.Database
 {
@@ -88,10 +90,10 @@ namespace ProjectInformatics.Database
             Role adminRole = new Role { Id = 1, Name = adminRoleName };
             Role userRole = new Role { Id = 2, Name = userRoleName };
             User adminUser = new User { Id = 1, Email = adminEmail, Password = adminPassword, RoleId = adminRole.Id };
-            User support = new User { Id = 1000, Email = "suppport@mail.ru", Password = "support", RoleId = 1 };
+            User support = new User { Id = 1000, Email = "suppport@mail.ru", Password = "support", RoleId = 1};
             var noCategory = new Category() { Id = 1, Type = "NoCategory" };
             var standardCategory = new Category() { Id = 2, Price = 15, Type = "Standard" };
-
+            
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
             modelBuilder.Entity<Category>().HasData(new Category[] { noCategory, standardCategory });

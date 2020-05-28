@@ -12,6 +12,7 @@ using ProjectInformatics.Database;
 
 namespace ProjectInformatics.Controllers
 {
+
     public class AccountController : Controller
     {
         private IDbService db;
@@ -37,7 +38,7 @@ namespace ProjectInformatics.Controllers
                 User user = await userService.GetUser(model.Email, model.Password);
                 if (user != null)
                 {
-                    await Authenticate(model.Email);
+                    await Authenticate(user);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -60,11 +61,10 @@ namespace ProjectInformatics.Controllers
                 User user = db.GetUser(model.Email);
                 if (user == null)
                 {
-                    await userService.AddUser(new User { Email = model.Email, Password = model.Password, CategoryId = 1 });
-                    //db.Users.Add(new User { Email = model.Email, Password = model.Password });
-                    //await db.SaveChangesAsync();
+                    user = new User { Email = model.Email, Password = model.Password, CategoryId = 1 };
+                    await userService.AddUser(user);
 
-                    await Authenticate(model.Email); 
+                    await Authenticate(user); 
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -74,16 +74,20 @@ namespace ProjectInformatics.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(User user)
         {
+            if (user.RoleId == 1) user.Role = new Role { Name = "admin" };
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
-
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
