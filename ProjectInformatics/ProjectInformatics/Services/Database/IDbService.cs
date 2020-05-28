@@ -20,5 +20,6 @@ namespace ProjectInformatics.Database
         Task<List<User>> GetUsersAsync();
         void AddUsers(params User[] users);
         Task<int> AddUserAsync(User user);
+        Task<Role> GetRole(string name);
     }
 }

@@ -155,5 +155,10 @@ namespace ProjectInformatics.Database
             return Users.FirstOrDefaultAsync(x => x.Email == email
                 || password != null && x.Email == email && x.Password == password);
         }
+
+        public Task<Role> GetRole(string name)
+        {
+            return Roles.FirstOrDefaultAsync(r => r.Name == name);
+        }
     }
 }

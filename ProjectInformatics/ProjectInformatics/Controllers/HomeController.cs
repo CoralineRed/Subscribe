@@ -50,7 +50,7 @@ namespace ProjectInformatics.Controllers
         }
         public IActionResult AllMessages()
         {
-            var jsondata = db.Messages.ToList<Message>();
+            var jsondata = db.GetMessages();
             return new JsonResult(jsondata);
         }
         [Authorize(Roles = "admin")]

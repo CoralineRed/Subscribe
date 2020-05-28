@@ -5,14 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProjectInformatics.Database;
 
 namespace ProjectInformatics.Services
 {
     public class UserService
     {
-        private ApplicationContext db;
+        private IDbService db;
         private IMemoryCache cache;
-        public UserService(ApplicationContext context, IMemoryCache memoryCache)
+        public UserService(IDbService context, IMemoryCache memoryCache)
         {
             db = context;
             cache = memoryCache;
@@ -20,29 +21,25 @@ namespace ProjectInformatics.Services
 
         public void Initialize()
         {
-            if (!db.Users.Any())
-            {
-                db.Users.AddRange(
+            if (!db.GetUsers().Any())
+                db.AddUsers(
                     new User { Name = "Tom", Email = "tom@gmail.com"},
                     new User { Name = "Alice", Email = "alice@yahoo.com"},
                     new User { Name = "Sam", Email = "sam@online.com"}
                 );
-                db.SaveChanges();
-            }
         }
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await db.Users.ToListAsync();
+            return await db.GetUsersAsync();
         }
 
         public async Task AddUser(User user)
         {
-            Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+            Role userRole = await db.GetRole("user");
             if (userRole != null)
                 user.Role = userRole;
-            db.Users.Add(user);
-            int n = await db.SaveChangesAsync();
+            int n = await db.AddUserAsync(user);
             if (n > 0)
             {
                 cache.Set(user.Id, user, new MemoryCacheEntryOptions
@@ -54,15 +51,11 @@ namespace ProjectInformatics.Services
 
         public async Task<User> GetUser(string email, string password)
         {
-            User userr = null;
-            User user = await db.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
-            if (!cache.TryGetValue(user.Id, out userr))
+            User user = await db.GetUserAsync(email, password);
+            if (user != null && !cache.TryGetValue(user.Id, out User _))
             {
-                if (user != null)
-                {
                     cache.Set(user.Id, user,
                     new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
-                }
             }
             return user;
         }
