@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using ProjectInformatics;
 using ProjectInformatics.Entities;
 using ProjectInformatics.Models;
 using ProjectInformatics.Services;
-using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
 using ProjectInformatics.Database;
 
-namespace AuthApp.Controllers
+namespace ProjectInformatics.Controllers
 {
     public class AccountController : Controller
     {
@@ -53,6 +50,7 @@ namespace AuthApp.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)

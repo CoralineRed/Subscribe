@@ -11,7 +11,6 @@ namespace ProjectInformatics.Database
 {
     public class ApplicationContext : DbContext, IDbService
     {
-        public DbSet<Message> Messages { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -19,23 +18,24 @@ namespace ProjectInformatics.Database
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<UserSubscription> UserSubscriptions { get; set; }
         IGridFSBucket gridFS;   // файловое хранилище
-        IMongoCollection<Message> Messagess; // коллекция в базе данных
+        //IMongoCollection<Message> Messages; // коллекция в базе данных
+        public DbSet<Message> Messages { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
             Database.EnsureCreated();
-            // строка подключения
-            string connectionString = "mongodb://localhost:27017/mobilestore";
-            var connection = new MongoUrlBuilder(connectionString);
-            // получаем клиента для взаимодействия с базой данных
-            MongoClient client = new MongoClient(connectionString);
-            // получаем доступ к самой базе данных
-            IMongoDatabase database = client.GetDatabase(connection.DatabaseName);
-            // получаем доступ к файловому хранилищу
-            gridFS = new GridFSBucket(database);
-            // обращаемся к коллекции Products
-            Messagess = database.GetCollection<Message>("Messages");
+            //// строка подключения
+            //string connectionString = "mongodb://localhost:27017/subscriptions";
+            //var connection = new MongoUrlBuilder(connectionString);
+            //// получаем клиента для взаимодействия с базой данных
+            //MongoClient client = new MongoClient(connectionString);
+            //// получаем доступ к самой базе данных
+            //IMongoDatabase database = client.GetDatabase(connection.DatabaseName);
+            //// получаем доступ к файловому хранилищу
+            //gridFS = new GridFSBucket(database);
+            //// обращаемся к коллекции Products
+            //Messages = database.GetCollection<Message>("Messages");
         }
 
         public void AddServiceToUser(Subscription subscription, string userEmail)
@@ -103,6 +103,16 @@ namespace ProjectInformatics.Database
         {
             return Users.ToList();
         }
+
+        //public List<Message> GetMessages()
+        //{
+        //    return Messages.AsQueryable().ToList();
+        //}
+
+        //public void AddMessage(Message message)
+        //{
+        //    Messages.InsertOne(message);
+        //}
 
         public List<Message> GetMessages()
         {
