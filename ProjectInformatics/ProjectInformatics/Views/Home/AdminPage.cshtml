@@ -1,0 +1,51 @@
+﻿
+    <fieldset>
+        <legend>All users</legend>
+        <input type="button" class="btn btn-default"  value="All users" id="buttonDemo4" />
+        <br />
+        <span id="result4"></span>
+    </fieldset>
+    <fieldset>
+        <legend>All messages</legend>
+        <input type="button" class="btn btn-default" value="All messages" id="buttonDemo3" />
+        <br />
+        <span id="result3"></span>
+    </fieldset>
+
+@section Scripts {
+    <script>
+            $('#buttonDemo4').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Home/AllUsers',
+                    success: function (result) {
+                        var s = '';
+                        for (var i = 0; i < result.length; i++) {
+                            s += '<br>Id: ' + result[i].id;
+                            s += '<br>Name: ' + result[i].email;
+                            s += '<br>------------------';
+                        }
+                        $('#result4').html(s);
+                    }
+                });
+            });</script>
+    <script>
+        $('#buttonDemo3').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Home/AllMessages',
+                success: function (result) {
+                    var s = '';
+                    for (var i = 0; i < result.length; i++) {
+                        s += '<br>Id: ' + result[i].id;
+                        s += '<br>Name: ' + result[i].userName;
+                        s += '<br>SendTo: ' + result[i].sendTo;
+                        s += '<br>Text: ' + result[i].messageText;
+                        s += '<br>------------------';
+                    }
+                    $('#result3').html(s);
+                }
+            });
+        });</script>
+}
+

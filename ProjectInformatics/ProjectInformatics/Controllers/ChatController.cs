@@ -4,19 +4,20 @@ using System.Linq;
 using ProjectInformatics.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ProjectInformatics.Database;
 
 namespace ProjectInformatics.Controllers
 {
     public class ChatController : Controller
     {
-        private ApplicationContext db;
-        public ChatController(ApplicationContext context)
+        private IDbService db;
+        public ChatController(IDbService context)
         {
             db = context;
         }
         public IActionResult Support()
         {
-            var messages = db.Messages.ToList();
+            var messages = db.GetMessages();
             messages.Reverse();
             return View(messages);
         }

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjectInformatics.Entities
 {
-    public class Message
+    public class Role
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
-        public string SendTo { get; set; }
-        public string MessageText { get; set; }
+        public string Name { get; set; }
+        public List<User> Users { get; set; }
+        public Role()
+        {
+            Users = new List<User>();
+        }
     }
 }
