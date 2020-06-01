@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ProjectInformatics.Entities;
 using ProjectInformatics.Models;
 using ProjectInformatics.Services;
-using Microsoft.AspNetCore.Builder;
 using ProjectInformatics.Database;
+using Microsoft.Extensions.Logging;
+using ProjectInformatics.Logging;
 
 namespace ProjectInformatics.Controllers
 {
     public class HomeController : Controller
     {
         private IDbService db;
-        UserService userService;
-        public HomeController(IDbService context, UserService service)
-        {
-            db = context;
-            userService = service;
 
+        public HomeController(IDbService context, ILogger<HomeController> logger)
+        {
+            db = LoggingAdvice<IDbService>.Create(context, logger);
         }
 
    
@@ -43,16 +35,19 @@ namespace ProjectInformatics.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
         public IActionResult AllUsers()
         {
             var jsondata = db.GetUsers();
             return new JsonResult(jsondata);
         }
+
         public IActionResult AllMessages()
         {
             var jsondata = db.GetMessages();
             return new JsonResult(jsondata);
         }
+
         [Authorize(Roles = "admin")]
         public IActionResult AdminPage()
         {

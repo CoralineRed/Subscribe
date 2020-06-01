@@ -5,15 +5,17 @@ using ProjectInformatics.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectInformatics.Database;
+using Microsoft.Extensions.Logging;
+using ProjectInformatics.Logging;
 
 namespace ProjectInformatics.Controllers
 {
     public class ChatController : Controller
     {
         private IDbService db;
-        public ChatController(IDbService context)
+        public ChatController(IDbService context, ILogger<ChatController> logger)
         {
-            db = context;
+            db = LoggingAdvice<IDbService>.Create(context, logger);
         }
         public IActionResult Support()
         {

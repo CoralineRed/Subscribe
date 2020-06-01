@@ -1,14 +1,18 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using ProjectInformatics.Entities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ProjectInformatics.Logging
 {
     public static class Extensions
     {
-
         public static string GetDescription(this Exception e)
         {
             var builder = new StringBuilder();
@@ -37,7 +41,6 @@ namespace ProjectInformatics.Logging
         private Action<string> _logError;
 
         private Func<object, string> _serializeFunction;
-        private TaskScheduler _loggingScheduler;
 
         protected override object Invoke(MethodInfo targetMethod, object[] args)
         {
@@ -81,8 +84,7 @@ namespace ProjectInformatics.Logging
                                 }
                                 LogAfter(targetMethod, args, taskResult);
                             }
-                        },
-                            _loggingScheduler);
+                        });
                     }
                     else
                     {
@@ -110,15 +112,15 @@ namespace ProjectInformatics.Logging
             throw new ArgumentException(nameof(targetMethod));
         }
         public static T Create(T decorated, Action<string> logInfo, Action<string> logError,
-            Func<object, string> serializeFunction, TaskScheduler loggingScheduler = null)
+            Func<object, string> serializeFunction)
         {
             object proxy = Create<T, LoggingAdvice<T>>();
-            ((LoggingAdvice<T>)proxy).SetParameters(decorated, logInfo, logError, serializeFunction, loggingScheduler);
+            ((LoggingAdvice<T>)proxy).SetParameters(decorated, logInfo, logError, serializeFunction);
             return (T)proxy;
         }
 
         private void SetParameters(T decorated, Action<string> logInfo, Action<string> logError,
-            Func<object, string> serializeFunction, TaskScheduler loggingScheduler)
+            Func<object, string> serializeFunction)
         {
             if (decorated == null)
             {
@@ -128,7 +130,6 @@ namespace ProjectInformatics.Logging
             _logInfo = logInfo;
             _logError = logError;
             _serializeFunction = serializeFunction;
-            //_loggingScheduler = loggingScheduler ?? TaskScheduler.FromCurrentSynchronizationContext();
         }
 
         private string GetStringValue(object obj)
@@ -206,6 +207,29 @@ namespace ProjectInformatics.Logging
                 }
             }
             _logInfo?.Invoke(beforeMessage.ToString());
+        }
+
+        public static T Create(T decorated, ILogger logger)
+        {
+            return Create(
+                decorated,
+                s => logger.LogInformation("Info:" + s),
+                s => logger.LogInformation("Error:" + s),
+                o => Serialize(o));
+        }
+
+        private static string Serialize(object obj)
+        {
+            if (obj == null) return "null";
+            if (obj is IEnumerable<object> list)
+                return list.Aggregate("", (a, b) => Serialize(a) + Serialize(b));
+            if (obj is Message message)
+                return "Message { " + "Sender: " + message.UserName + ", Receiver: " + message.SendTo
+                    + ", Text: " + message.MessageText + " }\n";
+            if (obj is User user)
+                return "User { " + "Email: " + user.Email + "Role: " + user.Role.Name
+                    + "Category: " + user.CategoryId + " }\n";
+            return obj.ToString();
         }
     }
 }

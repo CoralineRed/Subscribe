@@ -9,7 +9,7 @@ using ProjectInformatics.Database;
 
 namespace ProjectInformatics.Services
 {
-    public class UserService
+    public class UserService : ICacheService
     {
         private IDbService db;
         private IMemoryCache cache;

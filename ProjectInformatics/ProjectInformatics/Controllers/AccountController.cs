@@ -9,6 +9,8 @@ using ProjectInformatics.Models;
 using ProjectInformatics.Services;
 using Microsoft.Extensions.Caching.Memory;
 using ProjectInformatics.Database;
+using ProjectInformatics.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace ProjectInformatics.Controllers
 {
@@ -16,19 +18,20 @@ namespace ProjectInformatics.Controllers
     public class AccountController : Controller
     {
         private IDbService db;
-        private IMemoryCache _cache;
-        UserService userService { get; set; }
-        public AccountController(IDbService context, IMemoryCache cache)
+        ICacheService userService { get; set; }
+
+        public AccountController(IDbService context, ICacheService cacheService, ILogger<AccountController> logger)
         {
-            _cache = cache;
-            db = context;
-            userService = new UserService(db, _cache);
+            db = LoggingAdvice<IDbService>.Create(context, logger);
+            userService = LoggingAdvice<ICacheService>.Create(cacheService, logger);
         }
+
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
@@ -46,6 +49,7 @@ namespace ProjectInformatics.Controllers
             }
             return View(model);
         }
+
         [HttpGet]
         public IActionResult Register()
         {

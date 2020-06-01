@@ -1,0 +1,90 @@
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+An unhandled exception has occurred while executing the request.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetUser executing
+Parameters:
+email:angela
+password:null
+
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetUser executed
+Output:
+ProjectInformatics.Entities.User
+Parameters:
+email:angela
+password:null
+
+Info:Class ProjectInformatics.Services.UserService
+Method GetUser executing
+Parameters:
+email:angela
+password:123
+
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+Info:Class ProjectInformatics.Services.UserService
+Method GetUser executing
+Parameters:
+email:angela
+password:123
+
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+Info:Class ProjectInformatics.Services.UserService
+Method GetUser executing
+Parameters:
+email:angela
+password:123
+
+Info:Class ProjectInformatics.Services.UserService
+Method GetUser executed
+Output:
+null
+Parameters:
+email:angela
+password:123
+
+An unhandled exception has occurred while executing the request.
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetMessages executing
+
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetMessages executed
+Output:
+System.Collections.Generic.List`1[ProjectInformatics.Entities.Message]
+
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetMessages executing
+
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetMessages executed
+Output:
+ProjectInformatics.Entities.Message
+
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Анжела\Desktop\Subscribe\ProjectInformatics\ProjectInformatics
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetMessages executing
+
+Info:Class ProjectInformatics.Database.ApplicationContext
+Method GetMessages executed
+Output:
+Message { Sender: angela, Receiver: suppport@mail.ru, Text: hiMessage { Sender: angela, Receiver: suppport@mail.ru, Text: heyMessage { Sender: angela, Receiver: suppport@mail.ru, Text: hmm
+
