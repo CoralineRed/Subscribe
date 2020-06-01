@@ -75,11 +75,19 @@ namespace ProjectInformatics.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult AddService(Subscription model)
+        public IActionResult AddService(AddServiceModel model)
         {
             if (ModelState.IsValid)
             {
-                db.AddServiceToUser(model, User.Identity.Name);
+                var subsribtion = new Subscription
+                {
+                    Name = model.Name,
+                    LastPayment = model.LastPayment,
+                    Period = model.Period,
+                    Price = model.Price
+                };
+
+                db.AddServiceToUser(subsribtion, User.Identity.Name);
                 return RedirectToAction("MyServices", "Home");
             }
             return View(model);
