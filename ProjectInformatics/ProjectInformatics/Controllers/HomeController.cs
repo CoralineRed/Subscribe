@@ -7,6 +7,7 @@ using ProjectInformatics.Services;
 using ProjectInformatics.Database;
 using Microsoft.Extensions.Logging;
 using ProjectInformatics.Logging;
+using System;
 
 namespace ProjectInformatics.Controllers
 {
@@ -84,6 +85,14 @@ namespace ProjectInformatics.Controllers
         public IActionResult ThankYou(int categoryId)
         {
             db.UpdateUserCategory(User.Identity.Name, categoryId);
+            db.AddServiceToUser(new Subscription()
+                {
+                    Name = "ProjectInformatics",
+                    LastPayment = DateTime.Today,
+                    Period = 30,
+                    Price = 15
+                },
+                User.Identity.Name);
             return View();
         }
     }
