@@ -58,6 +58,10 @@ namespace ProjectInformatics.Database
                 .Select(x => x.SubscriptionId);
             var subs = Subscriptions
                 .Where(s => subsIds.Any(id => id == s.Id));
+            foreach (var s in subs)
+                while ((s.LastPayment + TimeSpan.FromDays(s.Period)).Date < DateTime.Today)
+                    s.LastPayment += TimeSpan.FromDays(s.Period);
+            SaveChanges();
             if (order == "descendingDate")
                 return subs.ToList().OrderByDescending(x => x.LastPayment + TimeSpan.FromDays(x.Period)).ToList();
             if (order == "ascendingName")
