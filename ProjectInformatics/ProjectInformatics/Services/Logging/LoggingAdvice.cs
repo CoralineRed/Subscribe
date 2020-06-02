@@ -227,7 +227,7 @@ namespace ProjectInformatics.Logging
                 return "Message { " + "Sender: " + message.UserName + ", Receiver: " + message.SendTo
                     + ", Text: " + message.MessageText + " }\n";
             if (obj is User user)
-                return "User { " + "Email: " + user.Email + "Role: " + user.Role.Name
+                return "User { " + "Email: " + user.Email + "Role: " + user.Role?.Name
                     + "Category: " + user.CategoryId + " }\n";
             return obj.ToString();
         }
